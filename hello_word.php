@@ -11,6 +11,7 @@
             echo("Hello, World!"); 
         ?>           
     </h3>
+    <p> <?php echo("Seja bem-vindo ao PHP!") ?></p>
 </body>
 </html>
 
