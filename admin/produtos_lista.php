@@ -57,7 +57,18 @@ $totalRows  =   ($lista)->num_rows;
                 <td><?php echo $row['descri_produto']; ?></td>
                 <td><?php echo $row['resumo_produto']; ?></td>
                 <td><?php echo $row['valor_produto']; ?></td>
-                <td><?php echo $row['imagem_produto']; ?></td>
+                <td>
+                    <!-- 
+                        Para exibir uma imagem insira em 'src'
+                        o diretório que ela está armazenada e
+                        a variável com seu nome.
+                     -->
+                    <img 
+                        src="../imagens/<?php echo $row['imagem_produto']; ?>" 
+                        alt="<?php echo $row['descri_produto']; ?>"
+                        width="100px"
+                    >
+                </td>
                 <td>ALTERAR|EXCLUIR</td>
             </tr>
             <?php }while($row = $lista->fetch_assoc());  ?>
@@ -67,3 +78,4 @@ $totalRows  =   ($lista)->num_rows;
 </main>
 </body>
 </html>
+<?php mysqli_free_result($lista); ?>
