@@ -5,7 +5,15 @@ include("../Connections/conn_produtos.php");
 // Selecionar o banco de dados (USE)
 mysqli_select_db($conn_produtos,$database_conn);
 
-
+// Selecionar os dados da chave estrangeira
+$consulta_fk    =   "
+                    SELECT *
+                    FROM    tbtipos
+                    ORDER BY rotulo_tipo ASC;
+                    ";
+$lista_fk       =   $conn_produtos->query($consulta_fk);
+$row_fk         =   $lista_fk->fetch_assoc();
+$totalRows_fk   =   ($lista_fk)->num_rows;
 ?>
 
 
