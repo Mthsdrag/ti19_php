@@ -1,3 +1,14 @@
+<?php
+// Incluir o arquivo e fazer a conexão
+include("../Connections/conn_produtos.php");
+
+// Selecionar o banco de dados (USE)
+mysqli_select_db($conn_produtos,$database_conn);
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -12,14 +23,14 @@
 <body>
 <main class="container">
     <div> <!-- abre row -->
-        <div> <!-- abre dimensionamento -->
+        <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4" > <!-- abre dimensionamento -->
             <h2 class="breadcrumb text-danger">
                 <a href="produtos_lista.php">
                     <button class="btn btn-danger">
                         <span class="glyphicon glyphicon-chevron-left"></span>
                     </button>
                 </a>
-                Inserindo Produtos
+                Inserir Produto
             </h2>
             <div class="thumbnail"> <!-- thumbnail -->
                 <div class="alert alert-danger" role="alert"> <!-- alert -->
@@ -119,6 +130,58 @@
                         <!-- fecha textarea resumo_produto -->
                         <br>
 
+                        <!-- number valor_produto -->
+                        <label for="valor_produto">Valor:</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-tags"></span>
+                            </span>
+                            <input 
+                                type="number"
+                                name="valor_produto"
+                                id="valor_produto"
+                                class="form-control"
+                                min="0"
+                                step="0.01"
+                            >
+                        </div> <!-- fecha input-group -->
+                        <!-- fecha number valor_produto -->
+                        <br>
+
+                        <!-- file imagem_produto -->
+                        <label for="imagem_produto">Imagem:</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-picture"></span>
+                            </span>
+                            <!-- Exibir a imagem a ser inserida -->
+                            <img 
+                                src="" 
+                                alt=""
+                                name="imagem"
+                                id="imagem"
+                                class="img-responsive"
+                                style="max-height: 150px;"
+                            >
+                            <input 
+                                type="file" 
+                                name="imagem_produto" 
+                                id="imagem_produto"
+                                class="form-control"
+                                accept="image/*"
+                            >
+                        </div> <!-- fecha input-group -->
+                        <!-- fecha file imagem_produto -->
+                        <br>
+
+                        <!-- btn enviar -->
+                         <input 
+                            type="submit" 
+                            value="Cadastrar"
+                            name="enviar"
+                            id="enviar"
+                            class="btn btn-danger btn-block"
+                         >
                     </form>
 
                 </div> <!-- fecha alert -->
@@ -127,6 +190,35 @@
     </div> <!-- fecha row -->
 </main>
 
+<!-- Script para a imagem -->
+<script>
+document.getElementById("imagem_produto").onchange = function(){
+    var reader = new FileReader();
+    if(this.files[0].size>512000){
+        alert("A imagem deve ter no máximo 500kb.");
+        $("#imagem").attr("src","blank");
+        $("#imagem").hide();
+        $("#imagem_produto").wrap('<form>').closest('form').get(0).reset();
+        $("#imagem_produto").unwrap();
+        return false;
+    }
+    if(this.files[0].type.indexOf("image")==-1){
+        alert("Formato inválido, escolha uma imagem.");
+        $("#imagem").attr("src","blank");
+        $("#imagem").hide();
+        $("#imagem_produto").wrap('<form>').closest('form').get(0).reset();
+        $("#imagem_produto").unwrap();
+        return false;
+    }
+    reader.onload = function(e){
+        // obter dados carregados e renderizar uma miniatura.
+        document.getElementById("imagem").src = e.target.result;
+        $("imagem").show();
+    };
+    // leia o arquivo de imagem como um URL de dados.
+    reader.readAsDataURL(this.files[0]);
+};
+</script>
 
 <!-- Link arquivos Bootstrap js -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
