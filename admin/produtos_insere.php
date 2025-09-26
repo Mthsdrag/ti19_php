@@ -6,17 +6,17 @@ include("../Connections/conn_produtos.php");
 mysqli_select_db($conn_produtos,$database_conn);
 
 // Selecionar os dados da chave estrangeira
+$tabela_fk      =   "tbtipos";
+$ordenar_por    =   "rotulo_tipo ASC";
 $consulta_fk    =   "
                     SELECT *
-                    FROM    tbtipos
-                    ORDER BY rotulo_tipo ASC;
+                    FROM    ".$tabela_fk."
+                    ORDER BY ".$ordenar_por.";
                     ";
 $lista_fk       =   $conn_produtos->query($consulta_fk);
 $row_fk         =   $lista_fk->fetch_assoc();
 $totalRows_fk   =   ($lista_fk)->num_rows;
 ?>
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -62,8 +62,13 @@ $totalRows_fk   =   ($lista_fk)->num_rows;
                                 class="form-control"
                                 required
                             >
-                                <option value="1">Churrasco</option>
-                                <option value="2">Sobremesa</option>
+                                <!-- Abre estrutura de repetição -->
+                                <?php do{ ?>
+                                    <option value="<?php echo $row_fk['id_tipo']; ?>">
+                                        <?php echo $row_fk['rotulo_tipo']; ?>
+                                    </option>
+                                <?php }while($row_fk=$lista_fk->fetch_assoc()); ?>
+                                <!-- Fecha estrutura de repetição -->
                             </select>
                         </div> <!-- fecha input-group -->
                         <!-- fecha Select id_tipo_produto -->
